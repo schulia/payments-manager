@@ -28,10 +28,15 @@ export const createUser = async (req: Request, res: Response): Promise<void> => 
   }
 };
 
-export const getUserBalance = async (req: Request, res: Response): Promise<void> => {
+export const getUserBalance = async (req: Request, res: Response): Promise<any> => {
   //assuming balance = earned - spent - payouts
 
-  const userTransactions = getTransactionsByUserId(req.params.userId);
+  const balance = calculateUserBalance(req.params.userId);
+  return res.status(200).json({ balance });
+}
+
+export const calculateUserBalance =  (userId: string): any => {
+  const userTransactions = getTransactionsByUserId(userId);
 
   const totalEarned = userTransactions.filter(transaction => transaction.type === 'earned')
     .reduce((acc, transaction) => acc + transaction.amount, 0);
@@ -40,5 +45,6 @@ export const getUserBalance = async (req: Request, res: Response): Promise<void>
   const totalPayouts = userTransactions.filter(transaction => transaction.type === 'payout')
     .reduce((acc, transaction) => acc + transaction.amount, 0);
   const balance = totalEarned - totalSpent - totalPayouts;
-  res.status(200).json({ balance });
+  return balance;
+
 }
