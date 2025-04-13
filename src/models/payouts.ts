@@ -6,6 +6,7 @@ interface PayoutAttributes {
   currency: string;
   amount: number;
   transactionId: string;
+  userId: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -17,6 +18,7 @@ class Payout extends Model<PayoutAttributes, PayoutCreationAttributes> implement
   public currency!: string;
   public amount!: number;
   public transactionId!: string;
+  public userId!: string;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
@@ -42,7 +44,14 @@ Payout.init(
       type:  DataTypes.UUID,
       allowNull: false,
       unique: true
-    }
+    },
+    userId : {
+        type: DataTypes.UUID,
+        allowNull: false,
+        references: {
+            model: 'users',
+            key: 'id'}
+      } 
   },
   {
     sequelize,
