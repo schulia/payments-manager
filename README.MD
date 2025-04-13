@@ -7,7 +7,7 @@ npm run dev
 
 npm test // not working, but if it was, that's how you'd do it 
 
-## Endpoints
+## Main Endpoints
 
 Create User 
 
@@ -21,3 +21,5 @@ curl --location 'http://localhost:3000/api/users/' \
 Get User Balance 
 
 curl --location --request GET 'http://localhost:3000/api/users/:userId/balance' \
+
+The other endpoints are CRUD endpoints with no business logic
